@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Presentación PHP - Grupo 5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --secondary: #34495E;
+            --accent: #E67E22;
+            --bg: #ECF0F1;
+            --text: #333333;
+            --code-bg: #1E1E1E;
+            --code-text: #D4D4D4;
+            --success: #27AE60;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        .slide {
+            display: none;
+            padding: 20px 20px 80px 20px;
+            height: 100%;
+            flex-direction: column;
+            animation: fadeIn 0.4s ease-in-out;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin: 15px 0 5px 0;
+        }
+
+        p, li {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        ul {
+            margin-left: 15px;
+            margin-bottom: 15px;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            font-family: 'Fira Code', monospace;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            margin: 8px 0;
+            border-left: 3px solid var(--accent);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-block .keyword { color: #569CD6; }
+        .code-block .string { color: #CE9178; }
+        .code-block .variable { color: #9CDCFE; }
+        .code-block .function { color: #DCDCAA; }
+        .code-block .comment { color: #6A9955; }
+
+        .info-box, .warning-box, .success-box {
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.9rem;
+        }
+
+        .info-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary);
+        }
+
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid var(--accent);
+        }
+
+        .success-box {
+            background-color: #d4edda;
+            border-left: 4px solid var(--success);
+        }
+
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #f4f6f8 100%);
+            padding-bottom: 20px;
+        }
+
+        .title-slide h2 {
+            border: none;
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .team-info {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+            border-top: 4px solid var(--accent);
+            width: 100%;
+        }
+
+        .team-info p {
+            font-size: 1rem;
+            margin: 5px 0;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .ficha {
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #ddd;
+            z-index: 20;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 110px;
+            justify-content: center;
+        }
+
+        .btn:active {
+            background: var(--accent);
+            transform: scale(0.95);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .slide-counter {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 700;
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        .grid-2 {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .icon-accent {
+            color: var(--accent);
+        }
+
+        @media (max-width: 380px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.2rem; }
+            .code-block { font-size: 0.75rem; }
+            .btn { min-width: 90px; padding: 10px 15px; font-size: 0.8rem; }
+        }
+
+        .swipe-hint {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 10px;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        
+        <!-- Diapositiva 1: Portada -->
+        <div class="slide title-slide active">
+            <h1>Dominando Funciones PHP</h1>
+            <h2>Grupo 5 - Taller de Funciones</h2>
+            
+            <div class="team-info">
+                <p><i class="fas fa-user icon-accent"></i> Stiven González Arias</p>
+                <p><i class="fas fa-user icon-accent"></i> Leider Serna Cardona</p>
+                <p><i class="fas fa-user icon-accent"></i> Sebastián Zambrano</p>
+                <div class="ficha">Ficha: 3410390</div>
+            </div>
+            <p class="swipe-hint"><i class="fas fa-hand-pointer"></i> Desliza o usa los botones</p>
+        </div>
+
+        <!-- Diapositiva 2: Agenda -->
+        <div class="slide">
+            <h2><i class="fas fa-list-ul icon-accent"></i> Agenda</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>Strings</h3>
+                    <ul>
+                        <li><strong>ord()</strong> - Valor ASCII</li>
+                        <li><strong>sprintf()</strong> - Formateo</li>
+                        <li><strong>addslashes()</strong> - Escape</li>
+                    </ul>
+                    <h3>Arrays</h3>
+                    <ul>
+                        <li><strong>shuffle()</strong> - Mezclar</li>
+                        <li><strong>array_diff()</strong> - Diferencias</li>
+                        <li><strong>array_unique()</strong> - Duplicados</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Archivos y Sistema</h3>
+                    <ul>
+                        <li><strong>chmod()</strong> - Permisos</li>
+                        <li><strong>file_get_contents()</strong> - Lectura</li>
+                    </ul>
+                    <h3>HTTP</h3>
+                    <ul>
+                        <li><strong>http_response_code()</strong> - Códigos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diapositiva 3: ord() -->
+        <div class="slide">
+            <h2><i class="fas fa-font icon-accent"></i> ord()</h2>
+            <div class="info-box">
+                <p><strong>Propósito:</strong> Convierte el primer byte de un string a un entero (0-255). Útil para obtener el código ASCII.</p>
+            </div>
+            <h3>Sintaxis</h3>
+            <div class="code-block"><span class="function">ord</span>(<span class="variable">$string</span>): <span class="keyword">int</span></div>
+            
+            <h3>Ejemplo</h3>
+            <div class="code-block">
+                <span class="variable">$letra</span> = <span class="string">"A"</span>;<br>
+                <span class="keyword">echo</span> <span class="function">ord</span>(<span class="variable">$letra</span>);
+            </div>
+            
+            <div class="success-box">
+                <strong>Resultado:</strong> 65
+            </div>
+            
+            <div class="warning-box">
+                <strong>Consejo:</strong> No usar con tildes o emojis (multibyte). Usar <code>mb_ord()</code>.
+            </div>
+        </div>
+
+        <!-- Diapositiva 4: shuffle() -->
+        <div class="slide">
+            <h2><i class="fas fa-random icon-accent"></i> shuffle()</h2>
+            <div class="info-box">
+                <p><strong>Propósito:</strong> Mezcla los elementos de un array aleatoriamente.</p>
+            </div>
+            <h3>Sintaxis</h3>
+            <div class="code-block"><span class="function">shuffle</span>(<span class="keyword">array</span> &<span class="variable">$array</span>): <span class="keyword">bool</span></div>
+            
+            <h3>Ejemplo</h3>
+            <div class="code-block">
+                <span class="variable">$cartas</span> = [<span class="string">"As"</span>, <span class="string">"Rey"</span>, <span class="string">"Reina"</span>];<br>
+                <span class="function">shuffle</span>(<span class="variable">$cartas</span>);<br>
+                <span class="function">print_r</span>(<span class="variable">$cartas</span>);
+            </div>
+            
+            <div class="success-box">
+                <strong>Resultado:</strong> Array ( [0] => Reina [1] => As [2] => Rey ) <em>(varía cada vez)</em>
+            </div>
+            
+            <div class="warning-box">
+                <strong>Consejo:</strong> Destruye las claves asociativas originales.
+            </div>
+        </div>
+
+        <!-- Diapositiva 5: sprintf() -->
+        <div class="slide">
+            <h2><i class="fas fa-edit icon-accent"></i> sprintf()</h2>
+            <div class="info-box">
+                <p><strong>Propósito:</strong> Devuelve una cadena formateada. Útil para dar formato a números o construir cadenas complejas.</p>
+            </div>
+            <h3>Sintaxis</h3>
+            <div class="code-block"><span class="function">sprintf</span>(<span class="keyword">string</span> <span class="variable">$format</span>, ...<span class="variable">$values</span>): <span class="keyword">string</span></div>
+            
+            <h3>Ejemplo</h3>
+            <div class="code-block">
+                <span class="variable">$precio</span> = 1250.5;<br>
+                <span class="keyword">echo</span> <span class="function">sprintf</span>(<span class="string">"Total: $%.2f"</span>, <span class="variable">$precio</span>);
+            </div>
+            
+            <div class="success-box">
+                <strong>Resultado:</strong> Total: $1250.50
+            </div>
+            
+            <div class="warning-box">
+                <strong>Consejo:</strong> Asegurar que el número de argumentos coincida con los marcadores (%).
+            </div>
+        </div>
+
+        <!-- Diapositiva 6: addslashes() -->
+        <div class="slide">
+            <h2><i class="fas fa-shield-alt icon-accent"></i> addslashes()</h2>
+            <div class="info-box">
+                <p><strong>Propósito:</strong> Escapa comillas y barras invertidas añadiendo una barra invertida.</p>
+            </div>
+            <h3>Sintaxis</h3>
+            <div class="code-block"><span class="function">addslashes</span>(<span class="keyword">string</span> <span class="variable">$string</span>): <span class="keyword">string</span></div>
+            
+            <h3>Ejemplo</h3>
+            <div class="code-block">
+                <span class="variable">$nombre</span> = <span class="string">"O'Reilly"</span>;<br>
+                <span class="keyword">echo</span> <span class="function">addslashes</span>(<span class="variable">$nombre</span>);
+            </div>
+            
+            <div class="success-box">
+                <strong>Resultado:</strong> O\'Reilly
+            </div>
+            
+            <div class="warning-box">
+                <strong>Consejo:</strong> NO usar para bases de datos (Inyección SQL). Usar PDO.
+            </div>
+        </div>
+
+        <!-- Diapositiva 7: array_diff() -->
+        <div class="slide">
+            <h2><i class="fas fa-not-equal icon-accent"></i> array_diff()</h2>
+            <div class="info-box">
+                <p><strong>Propósito:</strong> Devuelve los valores del primer array que no están en los demás.</p>
+            </div>
+            <h3>Sintaxis</h3>
+            <div class="code-block"><span class="function">array_diff</span>(<span class="keyword">array</span> <span class="variable">$array</span>, ...<span class="variable">$arrays</span>): <span class="keyword">array</span></div>
+            
+            <h3>Ejemplo</h3>
+            <div class="code-block">
+                <span class="variable">$inv</span> = [<span class="string">"manzana"</span>, <span class="string">"pera"</span>];<br>
+                <span class="variable">$vendidos</span> = [<span class="string">"pera"</span>];<br>
+                <span class="function">print_r</span>(<span class="function">array_diff</span>(<span class="variable">$inv</span>, <span class="variable">$vendidos</span>));
+            </div>
+            
+            <div class="success-box">
+                <strong>Resultado:</strong> Array ( [0] => manzana )
+            </div>
+            
+            <div class="warning-box">
+                <strong>Consejo:</strong> Compara como strings (el 1 y "1" son iguales).
+            </div>
+        </div>
+
+        <!-- Diapositiva 8: array_unique() -->
+        <div class="slide">
+            <h2><i class="fas fa-clone icon-accent"></i> array_unique()</h2>
+            <div class="info-box">
+                <p><strong>Propósito:</strong> Elimina valores duplicados, conservando la primera aparición y las claves originales.</p>
+            </div>
+            <h3>Sintaxis</h3>
+            <div class="code-block"><span class="function">array_unique</span>(<span class="keyword">array</span> <span class="variable">$array</span>): <span class="keyword">array</span></div>
+            
+            <h3>Ejemplo</h3>
+            <div class="code-block">
+                <span class="variable">$correos</span> = [<span class="string">"a@t.com"</span>, <span class="string">"b@t.com"</span>, <span class="string">"a@t.com"</span>];<br>
+                <span class="function">print_r</span>(<span class="function">array_unique</span>(<span class="variable">$correos</span>));
+            </div>
+            
+            <div class="success-box">
+                <strong>Resultado:</strong> Array ( [0] => a@t.com [1] => b@t.com )
+            </div>
+            
+            <div class="warning-box">
+                <strong>Consejo:</strong> Conserva índices. Usa <code>array_values()</code> para reindexar.
+            </div>
+        </div>
+
+        <!-- Diapositiva 9: chmod() -->
+        <div class="slide">
+            <h2><i class="fas fa-lock icon-accent"></i> chmod()</h2>
+            <div class="info-box">
+                <p><strong>Propósito:</strong> Cambia los permisos de un archivo o directorio (Linux/Unix).</p>
+            </div>
+            <h3>Sintaxis</h3>
+            <div class="code-block"><span class="function">chmod</span>(<span class="keyword">string</span> <span class="variable">$filename</span>, <span class="keyword">int</span> <span class="variable">$mode</span>): <span class="keyword">bool</span></div>
+            
+            <h3>Ejemplo</h3>
+            <div class="code-block">
+                <span class="keyword">if</span> (<span class="function">chmod</span>(<span class="string">"archivo.txt"</span>, <span class="keyword">0644</span>)) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">echo</span> <span class="string">"Permisos cambiados"</span>;<br>
+                }
+            </div>
+            
+            <div class="success-box">
+                <strong>Resultado:</strong> Permisos cambiados
+            </div>
+            
+            <div class="warning-box">
+                <strong>Consejo:</strong> Siempre anteponer un <code>0</code> (octal) al número de permisos.
+            </div>
+        </div>
+
+        <!-- Diapositiva 10: file_get_contents() -->
+        <div class="slide">
+            <h2><i class="fas fa-file-alt icon-accent"></i> file_get_contents()</h2>
+            <div class="info-box">
+                <p><strong>Propósito:</strong> Lee todo el contenido de un archivo y lo devuelve como string.</p>
+            </div>
+            <h3>Sintaxis</h3>
+            <div class="code-block"><span class="function">file_get_contents</span>(<span class="keyword">string</span> <span class="variable">$filename</span>): <span class="keyword">string</span>|<span class="keyword">false</span></div>
+            
+            <h3>Ejemplo</h3>
+            <div class="code-block">
+                <span class="variable">$txt</span> = <span class="function">file_get_contents</span>(<span class="string">"texto.txt"</span>);<br>
+                <span class="keyword">if</span> (<span class="variable">$txt</span> !== <span class="keyword">false</span>) { <span class="keyword">echo</span> <span class="variable">$txt</span>; }
+            </div>
+            
+            <div class="success-box">
+                <strong>Resultado:</strong> (Muestra el contenido del archivo)
+            </div>
+            
+            <div class="warning-box">
+                <strong>Consejo:</strong> Verificar siempre el retorno con <code>=== false</code> por si el archivo no existe.
+            </div>
+        </div>
+
+        <!-- Diapositiva 11: http_response_code() -->
+        <div class="slide">
+            <h2><i class="fas fa-network-wired icon-accent"></i> http_response_code()</h2>
+            <div class="info-box">
+                <p><strong>Propósito:</strong> Obtiene o establece el código de estado HTTP (200, 404, 500, etc.).</p>
+            </div>
+            <h3>Sintaxis</h3>
+            <div class="code-block"><span class="function">http_response_code</span>(<span class="keyword">int</span> <span class="variable">$code</span> = 0): <span class="keyword">int</span>|<span class="keyword">bool</span></div>
+            
+            <h3>Ejemplo</h3>
+            <div class="code-block">
+                <span class="function">http_response_code</span>(<span class="keyword">404</span>);<br>
+                <span class="keyword">echo</span> <span class="string">"Código: "</span> . <span class="function">http_response_code</span>();
+            </div>
+            
+            <div class="success-box">
+                <strong>Resultado:</strong> Código: 404
+            </div>
+            
+            <div class="warning-box">
+                <strong>Consejo:</strong> Llamar antes de cualquier salida HTML (echo) para evitar errores de cabeceras.
+            </div>
+        </div>
+
+        <!-- Diapositiva 12: Conclusiones -->
+        <div class="slide title-slide">
+            <h1>¡Gracias!</h1>
+            <h2>Conclusiones y Preguntas</h2>
+            <div class="team-info" style="margin-top: 20px;">
+                <p><i class="fas fa-check-circle icon-accent"></i> Strings y Arrays dominados.</p>
+                <p><i class="fas fa-check-circle icon-accent"></i> Archivos y HTTP controlados.</p>
+                <div class="ficha" style="margin-top: 15px;">Ficha: 3410390</div>
+            </div>
+        </div>
+
+        <!-- Controles inferiores fijos -->
+        <div class="controls">
+            <button class="btn" id="prevBtn" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i> Ant</button>
+            <span class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">12</span></span>
+            <button class="btn" id="nextBtn" onclick="changeSlide(1)">Sig <i class="fas fa-chevron-right"></i></button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = index + 1;
+            
+            // Deshabilitar botones en los extremos
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+            
+            // Resetear scroll al inicio de la diapositiva
+            slides[index].scrollTop = 0;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            showSlide(currentSlide);
+        }
+
+        // --- SOPORTE PARA GESTOS TÁCTILES (SWIPE) ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const swipeThreshold = 50; // Mínimo de píxeles para considerar un swipe
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe a la izquierda -> Siguiente
+                changeSlide(1);
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe a la derecha -> Anterior
+                changeSlide(-1);
+            }
+        }
+
+        // --- SOPORTE PARA TECLADO (Para pruebas en PC) ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        // Inicializar
+        showSlide(0);
+    </script>
+</body>
+</html>
