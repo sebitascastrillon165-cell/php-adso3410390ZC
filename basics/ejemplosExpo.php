@@ -47,17 +47,63 @@
     $precio = 1250.5;
     echo sprintf("Total: $%.2f", $precio);
     echo "<hr>";
-    
+
     /***************/
     // Addslashes
-    
-    echo "La función addslashes() en PHP sirve para devolver una cadena de texto con barras invertidas (\) delante de ciertos caracteres especiales y la funcion añade una barra invertida antes de las comillas simples, dobles, barra invertida o caracter null .";
+
+    echo "La función addslashes en PHP sirve para devolver una cadena de texto con barras invertidas (\) delante de ciertos caracteres especiales y la funcion añade una barra invertida antes de las comillas simples, dobles, barra invertida o caracter null .";
     echo "<hr>";
     $nombre = "O'Reilly";
     echo addslashes($nombre);
+    echo "<hr>";
 
     /*****************/
     // array_diff
+
+    echo "La función array_diff() en PHP sirve para comparar el primer array con uno o más arrays y devolver los valores que están en el primer array, pero que no se encuentran en ninguno de los demás<br> El array que tendremos sera: inv = manzana, pera ";
+    echo "<hr>";
+    echo "Y este sera el resultado con la funcion array_diff: <br>";
+    $inv = ["manzana", "pera"];
+    $vendidos = ["pera"];
+    print_r(array_diff($inv, $vendidos));
+    echo "<hr>";
+
+    /******************/
+    // array_unique
+    echo "La función array_unique() en PHP sirve para eliminar los valores duplicados de un array, devolviendo un nuevo array con los elementos únicos, este seria el array: <br> correos = a@t.com, b@t.com, a@t.com";
+    echo "<hr>";
+    echo "Este seria el resultado utilizando la funcion array_unique:<br>";
+    $correos = ["a@t.com", "b@t.com", "a@t.com"];
+    print_r(array_unique($correos));
+    echo "<hr>";
+
+    /*****************/
+    // chmod
+    echo "En PHP, la función chmod() sirve para cambiar los permisos de acceso de un archivo o un directorio en el sistema operativo del servidor";
+    echo "<hr>";
+    if (chmod("archivo.txt", 0644)) {
+        echo "Permisos cambiados";
+    }
+    echo "<hr>";
+
+    /****************/
+    // file_get_contents
+    echo "La función file_get_contents() en PHP sirve para leer el contenido completo de un archivo o de una URL y devolverlo en forma de una cadena de texto (string)";
+    echo "<hr>";
+    $txt = file_get_contents("texto.txt");
+    if ($txt !== false) {
+        echo $txt;
+    }
+    echo "<hr>";
+
+    /***************/
+    // http_response_code
+
+    echo "La función http_response_code() en PHP sirve para obtener el código de estado HTTP actual o para establecer uno nuevo en los encabezados de la respuesta que el servidor envía al navegador o cliente";
+    echo "<hr>";
+    http_response_code(404);
+    echo "Código: " . http_response_code();
+
     ?>
 </body>
 
