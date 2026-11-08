@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Presentación PHP - Grupo 5</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -100,25 +100,36 @@
             margin-bottom: 15px;
         }
 
+        /* =========================================
+           ARREGLO DEFINITIVO DE LOS BLOQUES NEGROS
+           ========================================= */
         .code-block {
             background-color: var(--code-bg);
             color: var(--code-text);
-            font-family: 'Fira Code', monospace;
-            padding: 12px;
+            /* Usamos una fuente monoespaciada clásica y segura */
+            font-family: 'Courier New', Courier, monospace; 
+            font-weight: 600;
+            padding: 15px 20px;
             border-radius: 6px;
-            font-size: 0.8rem;
-            overflow-x: auto;
-            margin: 8px 0;
-            border-left: 3px solid var(--accent);
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            font-size: 1rem;
+            margin: 8px 0 15px 0;
+            border-left: 4px solid var(--accent);
+            
+            /* Forzamos a que se comporte como un bloque abierto */
+            display: block;
+            width: 100%;
+            height: auto;
+            white-space: pre-wrap; /* Respeta los saltos de línea del HTML */
+            word-wrap: break-word; /* Rompe palabras largas si no caben */
+            overflow: visible; /* Elimina cualquier barra de scroll o corte */
+            line-height: 1.5;
         }
 
         .code-block .keyword { color: #569CD6; }
         .code-block .string { color: #CE9178; }
         .code-block .variable { color: #9CDCFE; }
         .code-block .function { color: #DCDCAA; }
-        .code-block .comment { color: #6A9955; }
+        /* ========================================= */
 
         .info-box, .warning-box, .success-box {
             padding: 12px;
@@ -140,6 +151,19 @@
         .success-box {
             background-color: #d4edda;
             border-left: 4px solid var(--success);
+            text-align: center;
+            padding: 15px;
+        }
+
+        .success-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            display: block;
+            margin: 10px auto 0 auto;
+            max-height: 350px; /* Tamaño grande para las imágenes */
+            object-fit: contain;
         }
 
         .title-slide {
@@ -249,7 +273,7 @@
         @media (max-width: 380px) {
             h1 { font-size: 1.5rem; }
             h2 { font-size: 1.2rem; }
-            .code-block { font-size: 0.75rem; }
+            .code-block { font-size: 0.9rem; padding: 10px; }
             .btn { min-width: 90px; padding: 10px 15px; font-size: 0.8rem; }
         }
 
@@ -322,13 +346,12 @@
             <div class="code-block"><span class="function">ord</span>(<span class="variable">$string</span>): <span class="keyword">int</span></div>
             
             <h3>Ejemplo</h3>
-            <div class="code-block">
-                <span class="variable">$letra</span> = <span class="string">"A"</span>;<br>
-                <span class="keyword">echo</span> <span class="function">ord</span>(<span class="variable">$letra</span>);
-            </div>
+            <div class="code-block"><span class="variable">$letra</span> = <span class="string">"A"</span>;
+<span class="keyword">echo</span> <span class="function">ord</span>(<span class="variable">$letra</span>);</div>
             
             <div class="success-box">
-                <strong>Resultado:</strong> 65
+                <strong>Resultado en pantalla:</strong>
+                <img src="ord.png" alt="Captura de pantalla ord()">
             </div>
             
             <div class="warning-box">
@@ -346,14 +369,13 @@
             <div class="code-block"><span class="function">shuffle</span>(<span class="keyword">array</span> &<span class="variable">$array</span>): <span class="keyword">bool</span></div>
             
             <h3>Ejemplo</h3>
-            <div class="code-block">
-                <span class="variable">$cartas</span> = [<span class="string">"As"</span>, <span class="string">"Rey"</span>, <span class="string">"Reina"</span>];<br>
-                <span class="function">shuffle</span>(<span class="variable">$cartas</span>);<br>
-                <span class="function">print_r</span>(<span class="variable">$cartas</span>);
-            </div>
+            <div class="code-block"><span class="variable">$cartas</span> = [<span class="string">"As"</span>, <span class="string">"Rey"</span>, <span class="string">"Reina"</span>];
+<span class="function">shuffle</span>(<span class="variable">$cartas</span>);
+<span class="function">print_r</span>(<span class="variable">$cartas</span>);</div>
             
             <div class="success-box">
-                <strong>Resultado:</strong> Array ( [0] => Reina [1] => As [2] => Rey ) <em>(varía cada vez)</em>
+                <strong>Resultado en pantalla:</strong> <em>(varía cada vez)</em>
+                <img src="shuffle.png" alt="Captura de pantalla shuffle()">
             </div>
             
             <div class="warning-box">
@@ -371,13 +393,12 @@
             <div class="code-block"><span class="function">sprintf</span>(<span class="keyword">string</span> <span class="variable">$format</span>, ...<span class="variable">$values</span>): <span class="keyword">string</span></div>
             
             <h3>Ejemplo</h3>
-            <div class="code-block">
-                <span class="variable">$precio</span> = 1250.5;<br>
-                <span class="keyword">echo</span> <span class="function">sprintf</span>(<span class="string">"Total: $%.2f"</span>, <span class="variable">$precio</span>);
-            </div>
+            <div class="code-block"><span class="variable">$precio</span> = 1250.5;
+<span class="keyword">echo</span> <span class="function">sprintf</span>(<span class="string">"Total: $%.2f"</span>, <span class="variable">$precio</span>);</div>
             
             <div class="success-box">
-                <strong>Resultado:</strong> Total: $1250.50
+                <strong>Resultado en pantalla:</strong>
+                <img src="sprintf.png" alt="Captura de pantalla sprintf()">
             </div>
             
             <div class="warning-box">
@@ -395,13 +416,12 @@
             <div class="code-block"><span class="function">addslashes</span>(<span class="keyword">string</span> <span class="variable">$string</span>): <span class="keyword">string</span></div>
             
             <h3>Ejemplo</h3>
-            <div class="code-block">
-                <span class="variable">$nombre</span> = <span class="string">"O'Reilly"</span>;<br>
-                <span class="keyword">echo</span> <span class="function">addslashes</span>(<span class="variable">$nombre</span>);
-            </div>
+            <div class="code-block"><span class="variable">$nombre</span> = <span class="string">"O'Reilly"</span>;
+<span class="keyword">echo</span> <span class="function">addslashes</span>(<span class="variable">$nombre</span>);</div>
             
             <div class="success-box">
-                <strong>Resultado:</strong> O\'Reilly
+                <strong>Resultado en pantalla:</strong>
+                <img src="addslashes.png" alt="Captura de pantalla addslashes()">
             </div>
             
             <div class="warning-box">
@@ -419,14 +439,13 @@
             <div class="code-block"><span class="function">array_diff</span>(<span class="keyword">array</span> <span class="variable">$array</span>, ...<span class="variable">$arrays</span>): <span class="keyword">array</span></div>
             
             <h3>Ejemplo</h3>
-            <div class="code-block">
-                <span class="variable">$inv</span> = [<span class="string">"manzana"</span>, <span class="string">"pera"</span>];<br>
-                <span class="variable">$vendidos</span> = [<span class="string">"pera"</span>];<br>
-                <span class="function">print_r</span>(<span class="function">array_diff</span>(<span class="variable">$inv</span>, <span class="variable">$vendidos</span>));
-            </div>
+            <div class="code-block"><span class="variable">$inv</span> = [<span class="string">"manzana"</span>, <span class="string">"pera"</span>];
+<span class="variable">$vendidos</span> = [<span class="string">"pera"</span>];
+<span class="function">print_r</span>(<span class="function">array_diff</span>(<span class="variable">$inv</span>, <span class="variable">$vendidos</span>));</div>
             
             <div class="success-box">
-                <strong>Resultado:</strong> Array ( [0] => manzana )
+                <strong>Resultado en pantalla:</strong>
+                <img src="array_diff.png" alt="Captura de pantalla array_diff()">
             </div>
             
             <div class="warning-box">
@@ -444,13 +463,12 @@
             <div class="code-block"><span class="function">array_unique</span>(<span class="keyword">array</span> <span class="variable">$array</span>): <span class="keyword">array</span></div>
             
             <h3>Ejemplo</h3>
-            <div class="code-block">
-                <span class="variable">$correos</span> = [<span class="string">"a@t.com"</span>, <span class="string">"b@t.com"</span>, <span class="string">"a@t.com"</span>];<br>
-                <span class="function">print_r</span>(<span class="function">array_unique</span>(<span class="variable">$correos</span>));
-            </div>
+            <div class="code-block"><span class="variable">$correos</span> = [<span class="string">"a@t.com"</span>, <span class="string">"b@t.com"</span>, <span class="string">"a@t.com"</span>];
+<span class="function">print_r</span>(<span class="function">array_unique</span>(<span class="variable">$correos</span>));</div>
             
             <div class="success-box">
-                <strong>Resultado:</strong> Array ( [0] => a@t.com [1] => b@t.com )
+                <strong>Resultado en pantalla:</strong>
+                <img src="array_unique.png" alt="Captura de pantalla array_unique()">
             </div>
             
             <div class="warning-box">
@@ -468,14 +486,13 @@
             <div class="code-block"><span class="function">chmod</span>(<span class="keyword">string</span> <span class="variable">$filename</span>, <span class="keyword">int</span> <span class="variable">$mode</span>): <span class="keyword">bool</span></div>
             
             <h3>Ejemplo</h3>
-            <div class="code-block">
-                <span class="keyword">if</span> (<span class="function">chmod</span>(<span class="string">"archivo.txt"</span>, <span class="keyword">0644</span>)) {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">echo</span> <span class="string">"Permisos cambiados"</span>;<br>
-                }
-            </div>
+            <div class="code-block"><span class="keyword">if</span> (<span class="function">chmod</span>(<span class="string">"archivo.txt"</span>, <span class="keyword">0644</span>)) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">echo</span> <span class="string">"Permisos cambiados"</span>;
+}</div>
             
             <div class="success-box">
-                <strong>Resultado:</strong> Permisos cambiados
+                <strong>Resultado en pantalla:</strong>
+                <img src="chmod.png" alt="Captura de pantalla chmod()">
             </div>
             
             <div class="warning-box">
@@ -493,13 +510,12 @@
             <div class="code-block"><span class="function">file_get_contents</span>(<span class="keyword">string</span> <span class="variable">$filename</span>): <span class="keyword">string</span>|<span class="keyword">false</span></div>
             
             <h3>Ejemplo</h3>
-            <div class="code-block">
-                <span class="variable">$txt</span> = <span class="function">file_get_contents</span>(<span class="string">"texto.txt"</span>);<br>
-                <span class="keyword">if</span> (<span class="variable">$txt</span> !== <span class="keyword">false</span>) { <span class="keyword">echo</span> <span class="variable">$txt</span>; }
-            </div>
+            <div class="code-block"><span class="variable">$txt</span> = <span class="function">file_get_contents</span>(<span class="string">"texto.txt"</span>);
+<span class="keyword">if</span> (<span class="variable">$txt</span> !== <span class="keyword">false</span>) { <span class="keyword">echo</span> <span class="variable">$txt</span>; }</div>
             
             <div class="success-box">
-                <strong>Resultado:</strong> (Muestra el contenido del archivo)
+                <strong>Resultado en pantalla:</strong>
+                <img src="filr_get_contents.png" alt="Captura de pantalla file_get_contents()">
             </div>
             
             <div class="warning-box">
@@ -517,13 +533,12 @@
             <div class="code-block"><span class="function">http_response_code</span>(<span class="keyword">int</span> <span class="variable">$code</span> = 0): <span class="keyword">int</span>|<span class="keyword">bool</span></div>
             
             <h3>Ejemplo</h3>
-            <div class="code-block">
-                <span class="function">http_response_code</span>(<span class="keyword">404</span>);<br>
-                <span class="keyword">echo</span> <span class="string">"Código: "</span> . <span class="function">http_response_code</span>();
-            </div>
+            <div class="code-block"><span class="function">http_response_code</span>(<span class="keyword">404</span>);
+<span class="keyword">echo</span> <span class="string">"Código: "</span> . <span class="function">http_response_code</span>();</div>
             
             <div class="success-box">
-                <strong>Resultado:</strong> Código: 404
+                <strong>Resultado en pantalla:</strong>
+                <img src="https_response_code.png" alt="Captura de pantalla http_response_code()">
             </div>
             
             <div class="warning-box">
@@ -593,13 +608,11 @@
         }, {passive: true});
 
         function handleSwipe() {
-            const swipeThreshold = 50; // Mínimo de píxeles para considerar un swipe
+            const swipeThreshold = 50; 
             if (touchEndX < touchStartX - swipeThreshold) {
-                // Swipe a la izquierda -> Siguiente
                 changeSlide(1);
             }
             if (touchEndX > touchStartX + swipeThreshold) {
-                // Swipe a la derecha -> Anterior
                 changeSlide(-1);
             }
         }
