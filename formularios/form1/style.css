@@ -1,0 +1,72 @@
+/* Reset basico */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    align-items: center;
+    background-color: rgb(128, 128, 128);
+    display: flex;
+    min-height: 100vh;
+    padding: 20px;
+    justify-content: center;
+}
+
+.container {
+    background-color: beige;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgb(42, 70, 174);
+    max-width: 400px;
+    padding: 1rem;
+    width: 100%;
+}
+
+form {
+    /*align-items: center;*/
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+}
+
+form h2 {
+    color: black;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.campo {
+    align-items: center;
+    display: flex;
+    gap: 6px;
+    justify-content: space-between;
+}
+
+input {
+    padding: .5rem;
+    width: 80%;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+button{
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgb(57, 93, 176);
+    border: none;
+    cursor: pointer;
+    font-weight: 600px;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    transition: background-color 0.2s;
+}
+
+button:hover{
+    background-color: blue;
+}
